@@ -4,7 +4,7 @@ require "ahn_drb/version"
 
 Gem::Specification.new do |s|
   s.name        = "ahn-drb"
-  s.version     = Ahn::Drb::VERSION
+  s.version     = AhnDrb::VERSION
   s.authors     = ["juandebravo", "Ben Langfeld", "Jason Goecke"]
   s.email       = ["juandebravo@gmail.com", "ben@langfeld.me", "jsgoecke@voxeo.com"]
   s.homepage    = ""

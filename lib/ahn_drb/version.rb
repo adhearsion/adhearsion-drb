@@ -1,5 +1,3 @@
-module Ahn
-  module Drb
-    VERSION = "0.1.0"
-  end
+module AhnDrb
+  VERSION = "0.1.0"
 end
