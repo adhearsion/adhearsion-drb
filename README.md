@@ -1,7 +1,7 @@
-ahn-drb
+adhearsion-drb
 =======
 
-ahn-drb is an Adhearsion Plugin providing DRb connectivity.
+adhearsion-drb is an Adhearsion Plugin providing DRb connectivity.
 
 Features
 --------
@@ -16,7 +16,7 @@ Requirements
 Install
 -------
 
-Add `ahn-drb` to your Adhearsion app's Gemfile.
+Add `adhearsion-drb` to your Adhearsion app's Gemfile.
 
 Configuration
 -------------
@@ -24,7 +24,7 @@ Configuration
 In your Adhearsion app configuration file, add the following values:
 
 ```ruby
-Adhearsion.config[:ahn_drb] do |config|
+Adhearsion.config[:adhearsion_drb] do |config|
   config.host = "DRb service host"
   config.port = "DRB service port".to_i
   config.acl.allow = ["127.0.0.1"] # list of allowed IPs (optional)
@@ -39,9 +39,9 @@ Original author: [Juan de Bravo](https://github.com/juandebravo)
 
 Links
 -----
-* [Source](https://github.com/adhearsion/ahn-drb)
-* [Documentation](http://rdoc.info/github/adhearsion/ahn-drb/master/frames)
-* [Bug Tracker](https://github.com/adhearsion/ahn-drb/issues)
+* [Source](https://github.com/adhearsion/adhearsion-drb)
+* [Documentation](http://rdoc.info/github/adhearsion/adhearsion-drb/master/frames)
+* [Bug Tracker](https://github.com/adhearsion/adhearsion-drb/issues)
 
 Note on Patches/Pull Requests
 -----------------------------
@@ -56,4 +56,4 @@ Note on Patches/Pull Requests
 Copyright
 ---------
 
-Check [License file](https://github.com/adhearsion/ahn-drb/blob/master/LICENSE)
+Check [License file](https://github.com/adhearsion/adhearsion-drb/blob/master/LICENSE)

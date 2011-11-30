@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "ahn_drb/version"
+require "adhearsion/drb/version"
 
 Gem::Specification.new do |s|
-  s.name        = "ahn-drb"
-  s.version     = AhnDrb::VERSION
+  s.name        = "adhearsion-drb"
+  s.version     = Adhearsion::Drb::VERSION
   s.authors     = ["juandebravo", "Ben Langfeld", "Jason Goecke"]
   s.email       = ["juandebravo@gmail.com", "ben@langfeld.me", "jsgoecke@voxeo.com"]
   s.homepage    = ""
   s.summary     = %q{This gem is an Adhearsion plugin that handles the Drb related stuff}
   s.description = %q{This gem is an Adhearsion plugin that handles the Drb related stuff}
 
-  s.rubyforge_project = "ahn-drb"
+  s.rubyforge_project = "adhearsion-drb"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
