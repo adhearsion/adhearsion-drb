@@ -108,8 +108,8 @@ describe Adhearsion::Drb::Plugin::Service do
     before do
       Adhearsion.config.adhearsion_drb.acl.allow = %q<127.0.0.1>
       Adhearsion.config.adhearsion_drb.acl.deny = nil
-      a # define rpc method
-      Adhearsion::Plugin.load
+      # define rpc method
+      Adhearsion::Plugin.load_plugins
     end
 
     after do
