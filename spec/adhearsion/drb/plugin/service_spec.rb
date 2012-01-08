@@ -93,11 +93,9 @@ describe Adhearsion::Drb::Plugin::Service do
       Adhearsion::Logging.silence!
     end
 
-    let :a do
-      Class.new Adhearsion::Plugin do
-        rpc :foo do
-          [3,2,1]
-        end
+    class Blah < Adhearsion::Plugin
+      rpc :foo do
+        [3,2,1]
       end
     end
 
