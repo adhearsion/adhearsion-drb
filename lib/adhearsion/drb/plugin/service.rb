@@ -22,7 +22,7 @@ module Adhearsion
           ##
           # Stop the DRb service
           def stop
-            logger.info "Stoping DRb on #{config.host}:#{config.port}"
+            logger.info "Stopping DRb on #{config.host}:#{config.port}"
             DRb.stop_service
           end
 
@@ -36,7 +36,7 @@ module Adhearsion
           # Creates a plain object and injects the Adhearsion RPC methods configured via plugins
           # @return [Object]
           def create_drb_door
-            Plugin.add_rpc_methods Object.new
+            config[:shared_object]
           end
 
           ##
