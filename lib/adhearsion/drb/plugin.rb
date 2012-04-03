@@ -13,6 +13,7 @@ module Adhearsion
       config :adhearsion_drb do
         host "localhost", :desc => "DRb service host"
         port 9050       , :desc => "DRb service port"
+        shared_object nil, :desc => "Object to share over DRb"
 
         desc "Access Control List configuration for the DRb service"
         acl {
