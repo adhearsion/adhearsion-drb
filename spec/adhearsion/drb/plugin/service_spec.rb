@@ -93,8 +93,8 @@ describe Adhearsion::Drb::Plugin::Service do
       Adhearsion::Logging.silence!
     end
 
-    class Blah < Adhearsion::Plugin
-      rpc :foo do
+    class Blah
+      def foo
         [3,2,1]
       end
     end
@@ -106,8 +106,9 @@ describe Adhearsion::Drb::Plugin::Service do
     before do
       Adhearsion.config.adhearsion_drb.acl.allow = %q<127.0.0.1>
       Adhearsion.config.adhearsion_drb.acl.deny = nil
-      # define rpc method
-      Adhearsion::Plugin.load_plugins
+      Adhearsion.config.adhearsion_drb.shared_object = Blah.new
+      
+      Adhearsion::Plugin.init_plugins
     end
 
     after do
