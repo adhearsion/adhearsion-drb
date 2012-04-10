@@ -56,4 +56,5 @@ Note on Patches/Pull Requests
 Copyright
 ---------
 
-Check [License file](https://github.com/adhearsion/adhearsion-drb/blob/master/LICENSE)
+Copyright (C) 2012 Adhearsion Foundation Inc.
+Released under the MIT License - Check [License file](https://github.com/adhearsion/adhearsion-drb/blob/master/LICENSE)
