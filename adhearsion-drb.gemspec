@@ -27,5 +27,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "flexmock"
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "rake", ">= 0.9.2"
+  s.add_development_dependency "thor", "~> 0.14.0"
 end
 
