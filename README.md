@@ -65,7 +65,7 @@ Or to trigger an outbound call:
 ```ruby
 class DrbEndpoint
   def call(number, provider)
-    Adhearsion::OutboundCall.originate "SIP/#{number}@{provider}", controller: FooController
+    Adhearsion::OutboundCall.originate "SIP/#{number}@#{provider}", controller: FooController
   end
 end
 ```
