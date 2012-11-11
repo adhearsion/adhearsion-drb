@@ -1,4 +1,4 @@
-adhearsion-drb
+adhearsion-drb [![Build Status](http://ci.mojolingo.com/job/adhearsion-drb/badge/icon)](http://ci.mojolingo.com/job/adhearsion-drb/)
 =======
 
 adhearsion-drb is an Adhearsion Plugin providing DRb connectivity. It allows third party ruby clients to connect to an Adhearsion instance for RPC.
