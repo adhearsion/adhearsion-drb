@@ -110,6 +110,9 @@ describe Adhearsion::Drb::Plugin::Service do
       Adhearsion.config.adhearsion_drb.acl.allow = %q<127.0.0.1>
       Adhearsion.config.adhearsion_drb.acl.deny = nil
       Adhearsion.config.adhearsion_drb.shared_object = Blah.new
+      # Use a random high port to prevent concurrent test runs from getting
+      # Errno::EADDRINUSE
+      Adhearsion.config[:adhearsion_drb].port = rand(1024..65535)
       
       Adhearsion::Plugin.init_plugins
     end
