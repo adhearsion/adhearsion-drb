@@ -7,6 +7,9 @@ describe Adhearsion::Drb::Plugin::Service do
     @port = Adhearsion.config[:adhearsion_drb].port
     @allow = Adhearsion.config[:adhearsion_drb].acl.allow.dup
     @deny = Adhearsion.config[:adhearsion_drb].acl.deny.dup
+    # Use a random high port to prevent concurrent test runs from getting
+    # Errno::EADDRINUSE
+    Adhearsion.config[:adhearsion_drb].port = rand(1024..65535)
   end
 
   after :all do
