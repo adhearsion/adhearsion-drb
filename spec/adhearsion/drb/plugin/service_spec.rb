@@ -9,7 +9,8 @@ describe Adhearsion::Drb::Plugin::Service do
     @deny = Adhearsion.config[:adhearsion_drb].acl.deny.dup
     # Use a random high port to prevent concurrent test runs from getting
     # Errno::EADDRINUSE
-    Adhearsion.config[:adhearsion_drb].port = rand(1024..65535)
+    # Ruby 1.9.2 version of #rand only allows 1 arg; do some math to keep the range right
+    Adhearsion.config[:adhearsion_drb].port = rand(65535 - 1024) + 1024
   end
 
   after :all do
@@ -112,7 +113,7 @@ describe Adhearsion::Drb::Plugin::Service do
       Adhearsion.config.adhearsion_drb.shared_object = Blah.new
       # Use a random high port to prevent concurrent test runs from getting
       # Errno::EADDRINUSE
-      Adhearsion.config[:adhearsion_drb].port = rand(1024..65535)
+      Adhearsion.config[:adhearsion_drb].port = rand(65535 - 1024) + 1024
       
       Adhearsion::Plugin.init_plugins
     end
