@@ -1,3 +1,5 @@
+require 'adhearsion/drb/service'
+
 module Adhearsion
   module Drb
 
@@ -5,10 +7,6 @@ module Adhearsion
     # Adhearsion Plugin definition that defines the DRb configuration options
     # and includes a hook to start the DRb service in Adhearsion initialization process
     class Plugin < Adhearsion::Plugin
-      extend ActiveSupport::Autoload
-
-      autoload :Service
-
       # Default configuration
       config :adhearsion_drb do
         host "localhost", :desc => "DRb service host"

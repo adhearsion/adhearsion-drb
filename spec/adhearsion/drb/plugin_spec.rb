@@ -76,7 +76,7 @@ describe Adhearsion::Drb::Plugin do
   describe "while initializing" do
 
     it "should start the service" do
-      Adhearsion::Drb::Plugin::Service.should_receive(:start).and_return true
+      Adhearsion::Drb::Service.should_receive(:start).and_return true
       Adhearsion::Plugin.init_plugins
     end
 

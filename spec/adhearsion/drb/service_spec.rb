@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Adhearsion::Drb::Plugin::Service do
+describe Adhearsion::Drb::Service do
 
   before :all do
     @host = Adhearsion.config[:adhearsion_drb].host
@@ -23,25 +23,25 @@ describe Adhearsion::Drb::Plugin::Service do
   describe "while creating the acl value" do
 
     it "should return <allow 127.0.0.1> as default value" do
-      Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1>
+      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1>
     end
 
     it "should return an empty string when no rule is defined" do
       Adhearsion.config.adhearsion_drb.acl.allow = []
       Adhearsion.config.adhearsion_drb.acl.deny = []
-      Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
     end
 
     it "should return an empty string when allow and deny are nil" do
       Adhearsion.config.adhearsion_drb.acl.allow = nil
       Adhearsion.config.adhearsion_drb.acl.deny = nil
-      Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
     end
 
     it "should return an empty string when allow and deny are empty" do
       Adhearsion.config.adhearsion_drb.acl.allow = ""
       Adhearsion.config.adhearsion_drb.acl.deny = ""
-      Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
     end
 
     describe "having configured deny" do
@@ -51,12 +51,12 @@ describe Adhearsion::Drb::Plugin::Service do
 
       it "should return an array with <deny 10.1.*.* deny 10.0.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.deny = %w<10.1.*.* 10.0.*.*>
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.* deny 10.0.*.*>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.* deny 10.0.*.*>
       end
 
       it "should return an array with <deny 10.1.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.deny = "10.1.*.*"
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.*>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.*>
       end
     end
 
@@ -67,12 +67,12 @@ describe Adhearsion::Drb::Plugin::Service do
 
       it "should return an array with <allow 127.0.0.1 allow 10.0.0.1> when another IP is allowed" do
         Adhearsion.config.adhearsion_drb.acl.allow = %w<127.0.0.1 10.0.0.1>
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.0.0.1>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.0.0.1>
       end
 
       it "should return an array with <allow 10.0.0.1> when another IP is allowed" do
         Adhearsion.config.adhearsion_drb.acl.allow = "10.0.0.1"
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 10.0.0.1>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 10.0.0.1>
       end
     end
 
@@ -81,13 +81,13 @@ describe Adhearsion::Drb::Plugin::Service do
       it "should return an array with <allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.allow = %w<127.0.0.1 10.2.*.*>
         Adhearsion.config.adhearsion_drb.acl.deny = %w<10.1.*.* 10.0.*.*>
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>
       end
 
       it "should return an array with <allow 127.0.0.1 deny 10.1.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.allow = "127.0.0.1"
         Adhearsion.config.adhearsion_drb.acl.deny = "10.1.*.*"
-        Adhearsion::Drb::Plugin::Service.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 deny 10.1.*.*>
+        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 deny 10.1.*.*>
       end
     end
   end
@@ -114,12 +114,12 @@ describe Adhearsion::Drb::Plugin::Service do
       # Use a random high port to prevent concurrent test runs from getting
       # Errno::EADDRINUSE
       Adhearsion.config[:adhearsion_drb].port = rand(65535 - 1024) + 1024
-      
+
       Adhearsion::Plugin.init_plugins
     end
 
     after do
-      Adhearsion::Drb::Plugin::Service.stop
+      Adhearsion::Drb::Service.stop
     end
 
     it "should return normal Ruby data structures properly over DRb" do

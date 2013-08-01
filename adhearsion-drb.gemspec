@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "adhearsion", ["~> 2.0"]
-  s.add_runtime_dependency "activesupport", [">= 3.0.10"]
   s.add_runtime_dependency "i18n", ">= 0.5.0"
   s.add_runtime_dependency "jruby-openssl" if RUBY_PLATFORM == 'java'
 
@@ -29,4 +28,3 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", ">= 0.9.2"
   s.add_development_dependency "thor", "~> 0.14.0"
 end
-
