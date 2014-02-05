@@ -101,25 +101,21 @@ describe Adhearsion::Drb::Service do
       def foo
         [3,2,1]
       end
+
+      def halt_drb_directly!
+        DRb.stop_service
+      end
     end
 
-    let :client do
-      DRbObject.new nil, DRb.uri
-    end
+    let(:client) { DRbObject.new nil, DRb.uri }
 
-    before do
-      Adhearsion.config.adhearsion_drb.acl.allow = %q<127.0.0.1>
-      Adhearsion.config.adhearsion_drb.acl.deny = nil
+    before(:all) do
+      Adhearsion.config.adhearsion_drb.acl.allow     = %q<127.0.0.1>
+      Adhearsion.config.adhearsion_drb.acl.deny      = nil
       Adhearsion.config.adhearsion_drb.shared_object = Blah.new
-      # Use a random high port to prevent concurrent test runs from getting
-      # Errno::EADDRINUSE
-      Adhearsion.config[:adhearsion_drb].port = rand(65535 - 1024) + 1024
 
-      Adhearsion::Plugin.init_plugins
-    end
-
-    after do
-      Adhearsion::Drb::Service.stop
+      Adhearsion::Drb::Service.user_stopped = false
+      Adhearsion::Drb::Service.start
     end
 
     it "should return normal Ruby data structures properly over DRb" do
@@ -130,6 +126,17 @@ describe Adhearsion::Drb::Service do
       lambda { client.interface.bad_interface.should be [3, 2, 1] }.should raise_error NoMethodError
     end
 
-  end
+    it "restarts the server if DRb's thread ends" do
+      client.halt_drb_directly!
+      sleep 2
+      client.foo.should == [3, 2, 1]
+    end
 
+    it "does not start up again if Service.stop is called" do
+      Adhearsion::Drb::Service.should_not_receive :start
+      Adhearsion::Drb::Service.stop
+      sleep 0.10
+      lambda { client.foo }.should raise_error DRb::DRbServerNotFound
+    end
+  end
 end
