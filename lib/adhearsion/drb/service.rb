@@ -10,7 +10,6 @@ module Adhearsion
 
       def initialize
         @user_stopped = false
-        Thread.abort_on_exception = true
         acl = create_acl config.acl.allow, config.acl.deny
         DRb.install_acl ACL.new(acl) unless acl.empty?
       end
