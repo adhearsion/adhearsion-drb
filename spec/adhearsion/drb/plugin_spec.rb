@@ -75,10 +75,12 @@ describe Adhearsion::Drb::Plugin do
 
   describe "while initializing" do
 
+    after { Adhearsion::Drb::Service.stop }
+
     it "should start the service" do
+      Adhearsion::Drb::Service.user_stopped = false
       Adhearsion::Drb::Service.should_receive(:start).and_return true
       Adhearsion::Plugin.init_plugins
     end
-
   end
 end
