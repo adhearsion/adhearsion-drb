@@ -9,19 +9,19 @@ describe Adhearsion::Drb::Plugin do
       Adhearsion.config.adhearsion_drb.should be_instance_of Loquacious::Configuration
     end
 
-    it "should configure properly the host" do
+    it "should listen on localhost by default" do
       Adhearsion.config.adhearsion_drb.host.should == "localhost"
     end
 
-    it "should configure properly the port" do
+    it "should use the default port of 9050" do
       Adhearsion.config.adhearsion_drb.port.should == 9050
     end
 
-    it "should configure properly the deny access" do
+    it "should default to an empty deny acl" do
       Adhearsion.config.adhearsion_drb.acl.deny.should have(0).hosts
     end
 
-    it "should configure properly the allow access" do
+    it "should default to an allow acl of only 127.0.0.1" do
       subject.adhearsion_drb.acl.allow.should == ["127.0.0.1"]
     end
 
@@ -75,10 +75,12 @@ describe Adhearsion::Drb::Plugin do
 
   describe "while initializing" do
 
+    after { Adhearsion::Drb::Service.stop }
+
     it "should start the service" do
-      Adhearsion::Drb::Plugin::Service.should_receive(:start).and_return true
+      Adhearsion::Drb::Service.user_stopped = false
+      Adhearsion::Drb::Service.should_receive(:start).and_return true
       Adhearsion::Plugin.init_plugins
     end
-
   end
 end
