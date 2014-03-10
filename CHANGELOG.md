@@ -1,4 +1,4 @@
-# DEVELOP:
+# 1.1.0
   * Make the server restart when it goes away
   * Add travis config
 
