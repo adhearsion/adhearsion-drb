@@ -21,7 +21,7 @@ module Adhearsion
       end
 
       # Include the DRb service in plugins initialization process
-      init :adhearsion_drb do
+      run :adhearsion_drb do
         Service.start
       end
 
