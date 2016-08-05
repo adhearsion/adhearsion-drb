@@ -6,23 +6,23 @@ describe Adhearsion::Drb::Plugin do
     subject { Adhearsion.config }
 
     it "should retrieve a valid configuration instance" do
-      Adhearsion.config.adhearsion_drb.should be_instance_of Loquacious::Configuration
+      expect(Adhearsion.config.adhearsion_drb).to be_instance_of Loquacious::Configuration
     end
 
     it "should listen on localhost by default" do
-      Adhearsion.config.adhearsion_drb.host.should == "localhost"
+      expect(Adhearsion.config.adhearsion_drb.host).to eq("localhost")
     end
 
     it "should use the default port of 9050" do
-      Adhearsion.config.adhearsion_drb.port.should == 9050
+      expect(Adhearsion.config.adhearsion_drb.port).to eq(9050)
     end
 
     it "should default to an empty deny acl" do
-      Adhearsion.config.adhearsion_drb.acl.deny.should have(0).hosts
+      expect(Adhearsion.config.adhearsion_drb.acl.deny.size).to eq(0)
     end
 
     it "should default to an allow acl of only 127.0.0.1" do
-      subject.adhearsion_drb.acl.allow.should == ["127.0.0.1"]
+      expect(subject.adhearsion_drb.acl.allow).to eq(["127.0.0.1"])
     end
 
   end
@@ -44,32 +44,32 @@ describe Adhearsion::Drb::Plugin do
 
     it "ovewrites properly the host value" do
       Adhearsion.config[:adhearsion_drb].host = "an-external-host"
-      Adhearsion.config[:adhearsion_drb].host.should == "an-external-host"
+      expect(Adhearsion.config[:adhearsion_drb].host).to eq("an-external-host")
     end
 
     it "ovewrites properly the port value" do
       Adhearsion.config[:adhearsion_drb].port = 9051
-      Adhearsion.config[:adhearsion_drb].port.should == 9051
+      expect(Adhearsion.config[:adhearsion_drb].port).to eq(9051)
     end
 
     it "ovewrites properly the allow access value" do
       Adhearsion.config[:adhearsion_drb].acl.allow = ["127.0.0.1", "192.168.10.*"]
-      Adhearsion.config[:adhearsion_drb].acl.allow.should == ["127.0.0.1", "192.168.10.*"]
+      expect(Adhearsion.config[:adhearsion_drb].acl.allow).to eq(["127.0.0.1", "192.168.10.*"])
     end
 
     it "ovewrites properly the allow access value adding an element" do
       Adhearsion.config[:adhearsion_drb].acl.allow << "192.168.10.*"
-      Adhearsion.config[:adhearsion_drb].acl.allow.should == ["127.0.0.1", "192.168.10.*"]
+      expect(Adhearsion.config[:adhearsion_drb].acl.allow).to eq(["127.0.0.1", "192.168.10.*"])
     end
 
     it "ovewrites properly the deny access value" do
       Adhearsion.config[:adhearsion_drb].acl.deny = ["192.168.*.*"]
-      Adhearsion.config[:adhearsion_drb].acl.deny.should == ["192.168.*.*"]
+      expect(Adhearsion.config[:adhearsion_drb].acl.deny).to eq(["192.168.*.*"])
     end
 
     it "ovewrites properly the deny access value adding an element" do
       Adhearsion.config[:adhearsion_drb].acl.deny << "192.168.*.*"
-      Adhearsion.config[:adhearsion_drb].acl.deny.should == ["192.168.*.*"]
+      expect(Adhearsion.config[:adhearsion_drb].acl.deny).to eq(["192.168.*.*"])
     end
   end
 
@@ -79,7 +79,7 @@ describe Adhearsion::Drb::Plugin do
 
     it "should start the service" do
       Adhearsion::Drb::Service.user_stopped = false
-      Adhearsion::Drb::Service.should_receive(:start).and_return true
+      expect(Adhearsion::Drb::Service).to receive(:start).and_return true
       Adhearsion::Plugin.init_plugins
       Adhearsion::Plugin.run_plugins
     end

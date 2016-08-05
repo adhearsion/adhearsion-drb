@@ -23,25 +23,25 @@ describe Adhearsion::Drb::Service do
   describe "while creating the acl value" do
 
     it "should return <allow 127.0.0.1> as default value" do
-      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1>
+      expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<allow 127.0.0.1>)
     end
 
     it "should return an empty string when no rule is defined" do
       Adhearsion.config.adhearsion_drb.acl.allow = []
       Adhearsion.config.adhearsion_drb.acl.deny = []
-      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq([])
     end
 
     it "should return an empty string when allow and deny are nil" do
       Adhearsion.config.adhearsion_drb.acl.allow = nil
       Adhearsion.config.adhearsion_drb.acl.deny = nil
-      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq([])
     end
 
     it "should return an empty string when allow and deny are empty" do
       Adhearsion.config.adhearsion_drb.acl.allow = ""
       Adhearsion.config.adhearsion_drb.acl.deny = ""
-      described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == []
+      expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq([])
     end
 
     describe "having configured deny" do
@@ -51,12 +51,12 @@ describe Adhearsion::Drb::Service do
 
       it "should return an array with <deny 10.1.*.* deny 10.0.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.deny = %w<10.1.*.* 10.0.*.*>
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.* deny 10.0.*.*>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<deny 10.1.*.* deny 10.0.*.*>)
       end
 
       it "should return an array with <deny 10.1.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.deny = "10.1.*.*"
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<deny 10.1.*.*>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<deny 10.1.*.*>)
       end
     end
 
@@ -67,12 +67,12 @@ describe Adhearsion::Drb::Service do
 
       it "should return an array with <allow 127.0.0.1 allow 10.0.0.1> when another IP is allowed" do
         Adhearsion.config.adhearsion_drb.acl.allow = %w<127.0.0.1 10.0.0.1>
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.0.0.1>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<allow 127.0.0.1 allow 10.0.0.1>)
       end
 
       it "should return an array with <allow 10.0.0.1> when another IP is allowed" do
         Adhearsion.config.adhearsion_drb.acl.allow = "10.0.0.1"
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 10.0.0.1>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<allow 10.0.0.1>)
       end
     end
 
@@ -81,13 +81,13 @@ describe Adhearsion::Drb::Service do
       it "should return an array with <allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.allow = %w<127.0.0.1 10.2.*.*>
         Adhearsion.config.adhearsion_drb.acl.deny = %w<10.1.*.* 10.0.*.*>
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>)
       end
 
       it "should return an array with <allow 127.0.0.1 deny 10.1.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.allow = "127.0.0.1"
         Adhearsion.config.adhearsion_drb.acl.deny = "10.1.*.*"
-        described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny).should == %w<allow 127.0.0.1 deny 10.1.*.*>
+        expect(described_class.create_acl(Adhearsion.config.adhearsion_drb.acl.allow, Adhearsion.config.adhearsion_drb.acl.deny)).to eq(%w<allow 127.0.0.1 deny 10.1.*.*>)
       end
     end
   end
@@ -119,24 +119,24 @@ describe Adhearsion::Drb::Service do
     end
 
     it "should return normal Ruby data structures properly over DRb" do
-      client.foo.should == [3, 2, 1]
+      expect(client.foo).to eq([3, 2, 1])
     end
 
     it "should raise an exception for a non-existent interface" do
-      lambda { client.interface.bad_interface.should be [3, 2, 1] }.should raise_error NoMethodError
+      expect { expect(client.interface.bad_interface).to be [3, 2, 1] }.to raise_error NoMethodError
     end
 
     it "restarts the server if DRb's thread ends" do
       client.halt_drb_directly!
       sleep 2
-      client.foo.should == [3, 2, 1]
+      expect(client.foo).to eq([3, 2, 1])
     end
 
     it "does not start up again if Service.stop is called" do
-      Adhearsion::Drb::Service.should_not_receive :start
+      expect(Adhearsion::Drb::Service).not_to receive :start
       Adhearsion::Drb::Service.stop
       sleep 0.10
-      lambda { client.foo }.should raise_error DRb::DRbServerNotFound
+      expect { client.foo }.to raise_error DRb::DRbServerNotFound
     end
   end
 end
