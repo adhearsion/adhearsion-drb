@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "jruby-openssl" if RUBY_PLATFORM == 'java'
+  s.add_runtime_dependency "adhearsion", "~> 3.0.0.rc1"
 
-  s.add_development_dependency "adhearsion"
-  s.add_development_dependency "rspec", "~> 2.7.0"
+  s.add_development_dependency "rspec"
   s.add_development_dependency "flexmock"
   s.add_development_dependency "guard-rspec"
-  s.add_development_dependency "rake", ">= 0.9.2"
-  s.add_development_dependency "thor", "~> 0.14.0"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "thor"
 end
