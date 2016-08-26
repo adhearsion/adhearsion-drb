@@ -18,6 +18,7 @@ module Adhearsion
           allow ["127.0.0.1"], :desc => "list of valid IP addresses to access DRb service"
           deny  []           , :desc => "list of invalid IP addresses to access DRb service"
         }
+        verbose "0", :desc => "DRb verbose mode"
       end
 
       # Include the DRb service in plugins initialization process
