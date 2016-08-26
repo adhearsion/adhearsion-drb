@@ -7,6 +7,7 @@ describe Adhearsion::Drb::Service do
     @port = Adhearsion.config[:adhearsion_drb].port
     @allow = Adhearsion.config[:adhearsion_drb].acl.allow.dup
     @deny = Adhearsion.config[:adhearsion_drb].acl.deny.dup
+    @verbose = Adhearsion.config[:adhearsion_drb].verbose
     # Use a random high port to prevent concurrent test runs from getting
     # Errno::EADDRINUSE
     # Ruby 1.9.2 version of #rand only allows 1 arg; do some math to keep the range right
@@ -18,6 +19,7 @@ describe Adhearsion::Drb::Service do
     Adhearsion.config[:adhearsion_drb].port = @port
     Adhearsion.config[:adhearsion_drb].acl.allow = @allow
     Adhearsion.config[:adhearsion_drb].acl.deny = @deny
+    Adhearsion.config[:adhearsion_drb].verbose = @verbose
   end
 
   describe "while creating the acl value" do
@@ -77,7 +79,6 @@ describe Adhearsion::Drb::Service do
     end
 
     describe "having configured allow and deny" do
-
       it "should return an array with <allow 127.0.0.1 allow 10.2.*.* deny 10.1.*.* deny 10.0.*.*>" do
         Adhearsion.config.adhearsion_drb.acl.allow = %w<127.0.0.1 10.2.*.*>
         Adhearsion.config.adhearsion_drb.acl.deny = %w<10.1.*.* 10.0.*.*>
@@ -109,13 +110,42 @@ describe Adhearsion::Drb::Service do
 
     let(:client) { DRbObject.new nil, DRb.uri }
 
-    before(:all) do
+    def setup_scenario
       Adhearsion.config.adhearsion_drb.acl.allow     = %q<127.0.0.1>
       Adhearsion.config.adhearsion_drb.acl.deny      = nil
       Adhearsion.config.adhearsion_drb.shared_object = Blah.new
 
       Adhearsion::Drb::Service.user_stopped = false
       Adhearsion::Drb::Service.start
+    end
+
+    before(:all) do
+      setup_scenario
+    end
+
+    describe "setting verbose" do
+      let(:verbose_config) { Adhearsion.config.adhearsion_drb.verbose }
+
+      def setup_scenario
+        verbose_config = verbose if !verbose.nil?
+        super
+        described_class.stop
+      end
+
+      def assert_verbose!
+        expect(DRb).to receive(:start_service).with(any_args, hash_including(:verbose => verbose_config))
+        expect { described_class.start }.to raise_error(DRb::DRbServerNotFound)
+      end
+
+      context "by default" do
+        let(:verbose) { nil }
+        it { assert_verbose!  }
+      end
+
+      context "setting verbose to true" do
+        let(:verbose) { true }
+        it { assert_verbose! }
+      end
     end
 
     it "should return normal Ruby data structures properly over DRb" do

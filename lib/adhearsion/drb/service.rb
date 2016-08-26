@@ -18,7 +18,9 @@ module Adhearsion
       # Start the DRb service
       def start
         logger.info "Starting DRb on #{config.host}:#{config.port}"
-        DRb.start_service "druby://#{config.host}:#{config.port}", create_drb_door
+        service_config = {}
+        service_config.merge!(:verbose => config.verbose)
+        DRb.start_service "druby://#{config.host}:#{config.port}", create_drb_door, service_config
         logger.info "DRB Started on #{DRb.uri}"
         keep_service_running!
       end
