@@ -93,6 +93,34 @@ describe Adhearsion::Drb::Service do
     end
   end
 
+  describe "setting verbose" do
+    before do
+      setup_scenario
+    end
+
+    def setup_scenario
+      Adhearsion.config.adhearsion_drb.verbose = verbose if !verbose.nil?
+      Adhearsion::Logging.silence!
+      allow(DRb).to receive(:uri).and_return("druby://127.0.0.1")
+      allow(DRb).to receive(:start_service)
+    end
+
+    def assert_verbose!(asserted_verbose)
+      expect(DRb).to receive(:start_service).with(any_args, hash_including(:verbose => asserted_verbose))
+      described_class.start
+    end
+
+    context "by default" do
+      let(:verbose) { nil }
+      it { assert_verbose!(false) }
+    end
+
+    context "setting verbose to '1'" do
+      let(:verbose) { "1" }
+      it { assert_verbose!(true) }
+    end
+  end
+
   describe "while running the Drb service" do
     before :all do
       Adhearsion::Logging.silence!
@@ -110,42 +138,13 @@ describe Adhearsion::Drb::Service do
 
     let(:client) { DRbObject.new nil, DRb.uri }
 
-    def setup_scenario
+    before(:all) do
       Adhearsion.config.adhearsion_drb.acl.allow     = %q<127.0.0.1>
       Adhearsion.config.adhearsion_drb.acl.deny      = nil
       Adhearsion.config.adhearsion_drb.shared_object = Blah.new
 
       Adhearsion::Drb::Service.user_stopped = false
       Adhearsion::Drb::Service.start
-    end
-
-    before(:all) do
-      setup_scenario
-    end
-
-    describe "setting verbose" do
-      let(:verbose_config) { Adhearsion.config.adhearsion_drb.verbose }
-
-      def setup_scenario
-        verbose_config = verbose if !verbose.nil?
-        super
-        described_class.stop
-      end
-
-      def assert_verbose!
-        expect(DRb).to receive(:start_service).with(any_args, hash_including(:verbose => verbose_config))
-        expect { described_class.start }.to raise_error(DRb::DRbServerNotFound)
-      end
-
-      context "by default" do
-        let(:verbose) { nil }
-        it { assert_verbose!  }
-      end
-
-      context "setting verbose to true" do
-        let(:verbose) { true }
-        it { assert_verbose! }
-      end
     end
 
     it "should return normal Ruby data structures properly over DRb" do
